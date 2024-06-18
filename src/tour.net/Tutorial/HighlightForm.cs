@@ -6,27 +6,17 @@ namespace tour.net.Tutorial
 {
     public partial class HighlightForm : Form
     {
-        private readonly Rectangle _highlightArea;
+        private readonly Control _highlightControl;
 
-        public Point ToolTipPos
-        {
-            get
-            {
-                Point excludeRectRealPos = PointToScreen(_highlightArea.Location);
-
-                return new Point(excludeRectRealPos.X + (_highlightArea.Width / 2) - (TooltipForm.TOOLTIP_FORM_WIDTH / 2),
-                    excludeRectRealPos.Y + _highlightArea.Height);
-            }
-        }
-
-        public HighlightForm(Size size, Rectangle highlightArea, double opacity = 0.1)
+        public HighlightForm(Size size, Control highlightControl, Form owner)
         {
             InitializeComponent();
 
-            _highlightArea = highlightArea;
+            _highlightControl = highlightControl;
 
-            Opacity = opacity;
+            Opacity = 0.1;
             Size = size;
+            Owner = owner;
 
             FormBorderStyle = FormBorderStyle.None;
             BackColor = Color.Black;
@@ -36,7 +26,19 @@ namespace tour.net.Tutorial
         protected override void OnPaint(PaintEventArgs e)
         {
             using (Brush brush = new SolidBrush(Color.White))
-                e.Graphics.FillRectangle(brush, _highlightArea);
+                e.Graphics.FillRectangle(brush, new Rectangle(
+                    _highlightControl.Location.X - 1,
+                    _highlightControl.Location.Y - 1,
+                    _highlightControl.Width + 2,
+                    _highlightControl.Height + 2));
+        }
+
+        public Point GetToolTipPos()
+        {
+            Point excludeRectRealPos = PointToScreen(_highlightControl.Bounds.Location);
+
+            return new Point(excludeRectRealPos.X + (_highlightControl.Width / 2) - (TooltipForm.TOOLTIP_FORM_WIDTH / 2),
+                excludeRectRealPos.Y + _highlightControl.Height);
         }
     }
 }

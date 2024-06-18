@@ -12,19 +12,29 @@ namespace tour.net.app
         public MainForm()
         {
             InitializeComponent();
+
+            LocationChanged += (sender, e) =>
+            {
+                _tutorial?.Resize(PointToScreen(panel1.Location), panel1.Size);
+            };
+
+            SizeChanged += (sender, e) =>
+            {
+                _tutorial?.Resize(PointToScreen(panel1.Location), panel1.Size);
+            };
         }
 
         private void InitializeTutorial()
         {
-            var step1 = new HighlightForm(Size, button1.Bounds);
-            var step2 = new HighlightForm(Size, button2.Bounds);
-            var step3 = new HighlightForm(Size, checkBox1.Bounds);
-            var step4 = new HighlightForm(Size, radioButton1.Bounds);
-            var step5 = new HighlightForm(Size, radioButton2.Bounds);
-            var step6 = new HighlightForm(Size, radioButton3.Bounds);
+            var step1 = new HighlightForm(panel1.Size, button1, this);
+            var step2 = new HighlightForm(panel1.Size, button2, this);
+            var step3 = new HighlightForm(panel1.Size, checkBox1, this);
+            var step4 = new HighlightForm(panel1.Size, radioButton1, this);
+            var step5 = new HighlightForm(panel1.Size, radioButton2, this);
+            var step6 = new HighlightForm(panel1.Size, radioButton3, this);
 
             _tutorial = new TutorialManager()
-                .SetBaseAreaLocation(PointToScreen(panel1.Location))
+                .SetBaseScreenPosition(PointToScreen(panel1.Location))
                 .AddStep(step1, new TooltipForm("Step 1", "click the button1."))
                 .AddStep(step2, new TooltipForm("Step 2", "click the button2."))
                 .AddStep(step3, new TooltipForm("Step 3", "check the checkBox1."))

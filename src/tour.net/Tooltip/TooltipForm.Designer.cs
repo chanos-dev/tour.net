@@ -33,8 +33,8 @@
             this.btnNext = new System.Windows.Forms.Button();
             this.lbDescription = new System.Windows.Forms.Label();
             this.pnlTitle = new System.Windows.Forms.Panel();
-            this.lbTitle = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
+            this.lbTitle = new System.Windows.Forms.Label();
             this.pnlMain.SuspendLayout();
             this.pnlTitle.SuspendLayout();
             this.SuspendLayout();
@@ -94,7 +94,7 @@
             // 
             // pnlTitle
             // 
-            this.pnlTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(143)))), ((int)(((byte)(255)))));
+            this.pnlTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(101)))), ((int)(((byte)(224)))));
             this.pnlTitle.Controls.Add(this.btnExit);
             this.pnlTitle.Controls.Add(this.lbTitle);
             this.pnlTitle.Dock = System.Windows.Forms.DockStyle.Top;
@@ -103,21 +103,6 @@
             this.pnlTitle.Name = "pnlTitle";
             this.pnlTitle.Size = new System.Drawing.Size(403, 38);
             this.pnlTitle.TabIndex = 38;
-            // 
-            // lbTitle
-            // 
-            this.lbTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(101)))), ((int)(((byte)(224)))));
-            this.lbTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lbTitle.ForeColor = System.Drawing.Color.White;
-            this.lbTitle.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lbTitle.Location = new System.Drawing.Point(0, 0);
-            this.lbTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(403, 38);
-            this.lbTitle.TabIndex = 0;
-            this.lbTitle.Text = "Title";
-            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnExit
             // 
@@ -133,6 +118,22 @@
             this.btnExit.TabIndex = 46;
             this.btnExit.Text = "X";
             this.btnExit.UseVisualStyleBackColor = false;
+            // 
+            // lbTitle
+            // 
+            this.lbTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(101)))), ((int)(((byte)(224)))));
+            this.lbTitle.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lbTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lbTitle.ForeColor = System.Drawing.Color.White;
+            this.lbTitle.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lbTitle.Location = new System.Drawing.Point(0, 0);
+            this.lbTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.lbTitle.Size = new System.Drawing.Size(366, 38);
+            this.lbTitle.TabIndex = 0;
+            this.lbTitle.Text = "Title";
+            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // TooltipForm
             // 

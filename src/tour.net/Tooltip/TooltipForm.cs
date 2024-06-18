@@ -6,7 +6,10 @@ namespace tour.net.Tooltip
 {
     public enum EArrowTooltipTail
     {
-        Top,
+        None,
+        Left,
+        Center,
+        Right,
     }
 
     public partial class TooltipForm : Form
@@ -16,7 +19,7 @@ namespace tour.net.Tooltip
 
         public const int TOOLTIP_FORM_WIDTH = 403;
 
-        public TooltipForm(string title, string description, EArrowTooltipTail arrowTooltipTail = EArrowTooltipTail.Top)
+        public TooltipForm(string title, string description, EArrowTooltipTail arrowTooltipTail = EArrowTooltipTail.Center)
         {
             InitializeComponent();
             
@@ -44,7 +47,7 @@ namespace tour.net.Tooltip
         {
             switch (arrowTooltipTail) 
             {
-                case EArrowTooltipTail.Top:
+                case EArrowTooltipTail.Center:
                     _tooltipTail.Location = new Point(Width / 2 - _tooltipTail.TailWidth, _tooltipTail.Location.Y);
                     break;
                 default:

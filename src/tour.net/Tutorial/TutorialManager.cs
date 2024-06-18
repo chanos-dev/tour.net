@@ -10,7 +10,7 @@ namespace tour.net.Tutorial
         private int _currentIdx = 0;
         private readonly List<TutorialStep> _steps;
 
-        private Point _baseAreaLocation = Point.Empty;
+        private Point _baseScreenPosition = Point.Empty;
         private bool disposedValue;
 
         public bool Running { get; set; }
@@ -20,12 +20,12 @@ namespace tour.net.Tutorial
             _steps = new List<TutorialStep>();
         }
 
-        public TutorialManager SetBaseAreaLocation(Point baseAreaLocation)
+        public TutorialManager SetBaseScreenPosition(Point baseScreenPos)
         {
-            if (baseAreaLocation == Point.Empty)
-                throw new ArgumentException(nameof(baseAreaLocation));
+            if (baseScreenPos == Point.Empty)
+                throw new ArgumentException(nameof(baseScreenPos));
 
-            _baseAreaLocation = baseAreaLocation;
+            _baseScreenPosition = baseScreenPos;
 
             return this;
         } 
@@ -42,7 +42,7 @@ namespace tour.net.Tutorial
             tooltipForm.AddNextEvent(NextStep);
             tooltipForm.AddExitEvent(ExitStep);
 
-            _steps.Add(new TutorialStep(highlightForm, tooltipForm, _baseAreaLocation != Point.Empty ? _baseAreaLocation : screenPos));
+            _steps.Add(new TutorialStep(highlightForm, tooltipForm, screenPos != Point.Empty ? screenPos : _baseScreenPosition));
 
             return this;
         }
@@ -81,6 +81,16 @@ namespace tour.net.Tutorial
             _steps[_currentIdx].Show();
         }
 
+        public void Resize(Point screenPos, Size size)
+        {            
+            foreach (var step in _steps)
+            {
+                step.Resize(size);
+                step.Move(screenPos);
+            }
+        }
+
+        #region IDisposable
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -108,5 +118,6 @@ namespace tour.net.Tutorial
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }

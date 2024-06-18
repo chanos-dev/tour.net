@@ -7,7 +7,7 @@ namespace tour.net.Tutorial
     {
         private readonly HighlightForm _highlightForm;
         private readonly TooltipForm _tooltipForm;
-        private readonly Point _screenPos;
+        private Point _screenPos;
 
         public HighlightForm HighlightForm => _highlightForm;
         public TooltipForm TooltipForm => _tooltipForm;
@@ -22,20 +22,30 @@ namespace tour.net.Tutorial
 
         public void Show()
         {
-            _highlightForm.TopMost = true;
             _highlightForm.Location = _screenPos;
             _highlightForm.Show();
 
             _tooltipForm.Owner = _highlightForm;
-            _tooltipForm.TopMost = true;
             _tooltipForm.Show();
-            _tooltipForm.Location = _highlightForm.ToolTipPos;
+            _tooltipForm.Location = _highlightForm.GetToolTipPos();
         }
 
         public void Hide()
         {
             _highlightForm.Hide();
             _tooltipForm.Hide();
+        }
+
+        public void Resize(Size size)
+        {
+            _highlightForm.Size = size;
+        }
+
+        public void Move(Point screenPos)
+        {
+            _screenPos = screenPos;
+            _highlightForm.Location = screenPos;
+            _tooltipForm.Location = _highlightForm.GetToolTipPos();
         }
     }
 }
