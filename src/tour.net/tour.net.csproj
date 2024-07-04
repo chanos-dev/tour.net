@@ -50,13 +50,11 @@
     <Compile Include="Tooltip\TooltipForm.Designer.cs">
       <DependentUpon>TooltipForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tooltip\TooltipTail.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Tutorial\HighlightForm.cs">
+    <Compile Include="TutorialConfig.cs" />
+    <Compile Include="Highlight\HighlightForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tutorial\HighlightForm.Designer.cs">
+    <Compile Include="Highlight\HighlightForm.Designer.cs">
       <DependentUpon>HighlightForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tutorial\TutorialManager.cs" />
@@ -66,9 +64,10 @@
     <EmbeddedResource Include="Tooltip\TooltipForm.resx">
       <DependentUpon>TooltipForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tutorial\HighlightForm.resx">
+    <EmbeddedResource Include="Highlight\HighlightForm.resx">
       <DependentUpon>HighlightForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace tour.net.Tutorial
+﻿namespace tour.net.Highlight
 {
     partial class HighlightForm
     {
@@ -15,8 +15,9 @@
         {
             if (disposing && (components != null))
             {
-                components.Dispose();
+                components.Dispose();                
             }
+
             base.Dispose(disposing);
         }
 

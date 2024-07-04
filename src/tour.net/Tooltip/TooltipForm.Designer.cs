@@ -1,6 +1,6 @@
 ﻿namespace tour.net.Tooltip
 {
-    partial class TooltipForm
+    partial class DefaultTooltipForm
     {
         /// <summary>
         /// Required designer variable.

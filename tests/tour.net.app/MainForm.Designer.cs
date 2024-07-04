@@ -142,6 +142,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";
             this.Text = "Demo";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
+using tour.net.Highlight;
 using tour.net.Tooltip;
 
 namespace tour.net.Tutorial
@@ -6,13 +8,14 @@ namespace tour.net.Tutorial
     public class TutorialStep
     {
         private readonly HighlightForm _highlightForm;
-        private readonly TooltipForm _tooltipForm;
+        private readonly DefaultTooltipForm _tooltipForm;
+
         private Point _screenPos;
 
         public HighlightForm HighlightForm => _highlightForm;
-        public TooltipForm TooltipForm => _tooltipForm;
+        public DefaultTooltipForm TooltipForm => _tooltipForm;
 
-        public TutorialStep(HighlightForm highlightForm, TooltipForm tooltipForm, Point screenPos)
+        public TutorialStep(HighlightForm highlightForm, DefaultTooltipForm tooltipForm, Point screenPos)
         {
             _highlightForm = highlightForm;
             _tooltipForm = tooltipForm;
@@ -32,8 +35,13 @@ namespace tour.net.Tutorial
 
         public void Hide()
         {
+            Form owner = _highlightForm.Owner;
+            _highlightForm.Owner = null;
+
             _highlightForm.Hide();
             _tooltipForm.Hide();
+
+            _highlightForm.Owner = owner;
         }
 
         public void Resize(Size size)
@@ -44,8 +52,14 @@ namespace tour.net.Tutorial
         public void Move(Point screenPos)
         {
             _screenPos = screenPos;
+
             _highlightForm.Location = screenPos;
             _tooltipForm.Location = _highlightForm.GetToolTipPos();
+        }
+
+        public void ApplyConfig(TutorialConfig config)
+        {
+            _tooltipForm.ApplyConfig(config);
         }
     }
 }

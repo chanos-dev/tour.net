@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using tour.net.Highlight;
 using tour.net.Tooltip;
 using tour.net.Tutorial;
 
@@ -13,6 +15,7 @@ namespace tour.net.app
         {
             InitializeComponent();
 
+            
             LocationChanged += (sender, e) =>
             {
                 _tutorial?.Resize(PointToScreen(panel1.Location), panel1.Size);
@@ -34,20 +37,27 @@ namespace tour.net.app
             var step6 = new HighlightForm(panel1.Size, radioButton3, this);
 
             _tutorial = new TutorialManager()
-                .SetBaseScreenPosition(PointToScreen(panel1.Location))
-                .AddStep(step1, new TooltipForm("Step 1", "click the button1."))
-                .AddStep(step2, new TooltipForm("Step 2", "click the button2."))
-                .AddStep(step3, new TooltipForm("Step 3", "check the checkBox1."))
-                .AddStep(step4, new TooltipForm("Step 4", "click the radioButton1."))
-                .AddStep(step5, new TooltipForm("Step 5", "click the radioButton2."))
-                .AddStep(step6, new TooltipForm("Step 6", "click the radioButton3."));
+                .SetTutorialConfig(config =>
+                {
+                    config.HighlightScreenPosition = PointToScreen(panel1.Location);
+                    config.TooltipColor = Color.LightBlue;
+                })
+                .AddStep(step1, new DefaultTooltipForm("Step 1", "click the button1."))
+                .AddStep(step2, new DefaultTooltipForm("Step 2", "click the button2."))
+                .AddStep(step3, new DefaultTooltipForm("Step 3", "check the checkBox1."))
+                .AddStep(step4, new DefaultTooltipForm("Step 4", "click the radioButton1."))
+                .AddStep(step5, new DefaultTooltipForm("Step 5", "click the radioButton2."))
+                .AddStep(step6, new DefaultTooltipForm("Step 6", "click the radioButton3."));
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            InitializeTutorial();
-
             _tutorial.Start();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            InitializeTutorial();
         }
     }
 }
