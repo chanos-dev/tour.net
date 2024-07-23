@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using tour.net.Highlight;
 using tour.net.Tooltip;
 
-namespace tour.net.Tutorial
+namespace tour.net.Tutorials
 {
     public class TutorialStep
     {

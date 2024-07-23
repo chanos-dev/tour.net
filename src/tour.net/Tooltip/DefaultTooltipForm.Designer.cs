@@ -1,4 +1,6 @@
-﻿namespace tour.net.Tooltip
+﻿using tour.net.CustomControls;
+
+namespace tour.net.Tooltip
 {
     partial class DefaultTooltipForm
     {
@@ -30,11 +32,11 @@
         {
             this.pnlMain = new System.Windows.Forms.Panel();
             this.lbSeq = new System.Windows.Forms.Label();
-            this.btnPrev = new System.Windows.Forms.Button();
-            this.btnNext = new System.Windows.Forms.Button();
+            this.btnPrev = new CustomButton();
+            this.btnNext = new CustomButton();
             this.lbDescription = new System.Windows.Forms.Label();
             this.pnlTitle = new System.Windows.Forms.Panel();
-            this.btnExit = new System.Windows.Forms.Button();
+            this.btnExit = new CustomButton();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pnlMain.SuspendLayout();
             this.pnlTitle.SuspendLayout();
@@ -170,9 +172,9 @@
         private System.Windows.Forms.Label lbDescription;
         private System.Windows.Forms.Panel pnlTitle;
         private System.Windows.Forms.Label lbTitle;
-        private System.Windows.Forms.Button btnPrev;
-        private System.Windows.Forms.Button btnNext;
-        private System.Windows.Forms.Button btnExit;
+        private CustomButton btnPrev;
+        private CustomButton btnNext;
+        private CustomButton btnExit;
         private System.Windows.Forms.Label lbSeq;
     }
 }

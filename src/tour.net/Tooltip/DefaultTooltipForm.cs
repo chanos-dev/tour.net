@@ -102,6 +102,7 @@ namespace tour.net.Tooltip
             Controls.Add(_tooltipTail);
             MoveTail(tooltipPosition);
         }
+
         private void MoveTail(ETooltipPosition tooltipPosition)
         {
             switch (tooltipPosition) 
@@ -121,6 +122,15 @@ namespace tour.net.Tooltip
             _totalStepsCount = totalStepsCount;
 
             lbSeq.Text = $"{_stepIndex} / {_totalStepsCount}";
+
+            if (stepIndex == 1)
+            {
+                btnPrev.Visible = false;
+            }
+            else if (stepIndex == totalStepsCount)
+            {
+                btnNext.Text = "Finish";
+            }
         }
 
         public void ApplyConfig(TutorialConfig config)

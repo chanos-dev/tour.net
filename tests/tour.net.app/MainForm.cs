@@ -3,13 +3,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using tour.net.Highlight;
 using tour.net.Tooltip;
-using tour.net.Tutorial;
+using tour.net.Tutorials;
 
 namespace tour.net.app
 {
     public partial class MainForm : Form
     {
-        private TutorialManager _tutorial;
+        private Tutorial _tutorial;
 
         public MainForm()
         {
@@ -18,11 +18,13 @@ namespace tour.net.app
             LocationChanged += (sender, e) =>
             {
                 _tutorial?.Resize(PointToScreen(panel1.Location), panel1.Size);
+                //_tutorial?.Resize(this.Location, this.ClientSize);
             };
 
             SizeChanged += (sender, e) =>
             {
                 _tutorial?.Resize(PointToScreen(panel1.Location), panel1.Size);
+                //_tutorial?.Resize(this.Location, this.ClientSize);
             };
         }
 
@@ -35,7 +37,7 @@ namespace tour.net.app
             var step5 = new HighlightForm(panel1.Size, radioButton2, this);
             var step6 = new HighlightForm(panel1.Size, radioButton3, this);
 
-            _tutorial = new TutorialManager()
+            _tutorial = new Tutorial()
                 .SetTutorialConfig(config =>
                 {
                     config.HighlightScreenPosition = PointToScreen(panel1.Location);
@@ -51,7 +53,8 @@ namespace tour.net.app
 
         private void button3_Click(object sender, EventArgs e)
         {
-            _tutorial.Start();
+            ITutorial tutorial = _tutorial.Build();
+            tutorial.Start();
         }
 
         private void MainForm_Load(object sender, EventArgs e)

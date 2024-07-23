@@ -4,37 +4,52 @@ using System.Drawing;
 using tour.net.Highlight;
 using tour.net.Tooltip;
 
-namespace tour.net.Tutorial
+namespace tour.net.Tutorials
 {
-    public class TutorialManager : IDisposable
+    public interface ITutorial
+    {
+        void Start();
+    }
+
+    public class Tutorial : ITutorial, IDisposable
     {
         private int _currentIdx = 0;
         private readonly List<TutorialStep> _steps;
         private readonly TutorialConfig _tutorialConfig;
 
+        private bool _created;
         private bool disposedValue;
 
         public bool Running { get; set; }
 
-        public TutorialManager()
+        public Tutorial()
         {
             _steps = new List<TutorialStep>();
             _tutorialConfig = TutorialConfig.DefaultTutorialConfig;
         }
 
-        public TutorialManager SetTutorialConfig(Action<TutorialConfig> config)
+        public TutorialStep this[int idx]
+        {
+            get
+            {
+                if (idx < 0 || idx >= _steps.Count)
+                    throw new IndexOutOfRangeException();
+
+                return _steps[idx];
+            }
+        }
+
+        public Tutorial SetTutorialConfig(Action<TutorialConfig> config)
         {
             if (config is null)
                 throw new ArgumentNullException(nameof(config));
 
             config.Invoke(_tutorialConfig);
 
-            _steps.ForEach(step => step.ApplyConfig(_tutorialConfig));
-
             return this;
         } 
 
-        public TutorialManager AddStep(HighlightForm highlightForm, DefaultTooltipForm tooltipForm, Point highlightScreenPosition = new Point())
+        public Tutorial AddStep(HighlightForm highlightForm, DefaultTooltipForm tooltipForm, Point highlightScreenPosition = new Point())
         {
             if (highlightForm is null)
                 throw new ArgumentNullException(nameof(highlightForm));
@@ -42,19 +57,10 @@ namespace tour.net.Tutorial
             if (tooltipForm is null)
                 throw new ArgumentNullException(nameof(tooltipForm));
 
-            tooltipForm.AddPrevEvent(PrevStep);
-            tooltipForm.AddNextEvent(NextStep);
-            tooltipForm.AddExitEvent(ExitStep);
-
             Point pos = highlightScreenPosition != Point.Empty ? highlightScreenPosition : _tutorialConfig.HighlightScreenPosition;
             TutorialStep step = new TutorialStep(highlightForm, tooltipForm, pos);
 
-            step.ApplyConfig(_tutorialConfig); 
-
             _steps.Add(step);
-
-            for (int idx = 0; idx < _steps.Count; idx++)
-                _steps[idx].TooltipForm.SetStepInfo(idx + 1, _steps.Count);
 
             return this;
         } 
@@ -118,10 +124,37 @@ namespace tour.net.Tutorial
             Running = false;
         }
 
-        public void Start()
+        public ITutorial Build()
+        {
+            if (_steps.Count < 1)
+                throw new Exception();
+
+            if (_created)
+                return this;
+
+            for (int idx = 0; idx < _steps.Count; idx++)
+            {
+                _steps[idx].TooltipForm.AddPrevEvent(PrevStep);
+                _steps[idx].TooltipForm.AddNextEvent(NextStep);
+                _steps[idx].TooltipForm.AddExitEvent(ExitStep);
+
+                _steps[idx].TooltipForm.SetStepInfo(idx + 1, _steps.Count);
+
+                _steps[idx].ApplyConfig(_tutorialConfig);
+            }
+
+            _created = true;
+
+            return this;
+        }
+
+        void ITutorial.Start()
         {
             if (_steps.Count == 0)
                 throw new InvalidOperationException("Has no step.");
+
+            if (!_created)
+                throw new InvalidOperationException("You have to call the Build method.");
 
             Running = true;
 
@@ -130,7 +163,7 @@ namespace tour.net.Tutorial
         }
 
         public void Resize(Point highlightScreenPosition, Size size)
-        {            
+        {
             foreach (TutorialStep step in _steps)
             {
                 step.Resize(size);
@@ -158,7 +191,7 @@ namespace tour.net.Tutorial
             }
         }
 
-        ~TutorialManager()
+        ~Tutorial()
         {
             Dispose(disposing: false);
         }
