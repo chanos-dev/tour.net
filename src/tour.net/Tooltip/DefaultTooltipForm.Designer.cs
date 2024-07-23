@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.lbSeq = new System.Windows.Forms.Label();
             this.btnPrev = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.lbDescription = new System.Windows.Forms.Label();
@@ -42,6 +43,7 @@
             // pnlMain
             // 
             this.pnlMain.BackColor = System.Drawing.Color.White;
+            this.pnlMain.Controls.Add(this.lbSeq);
             this.pnlMain.Controls.Add(this.btnPrev);
             this.pnlMain.Controls.Add(this.btnNext);
             this.pnlMain.Controls.Add(this.lbDescription);
@@ -52,6 +54,15 @@
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(403, 135);
             this.pnlMain.TabIndex = 2;
+            // 
+            // lbSeq
+            // 
+            this.lbSeq.AutoSize = true;
+            this.lbSeq.Location = new System.Drawing.Point(12, 104);
+            this.lbSeq.Name = "lbSeq";
+            this.lbSeq.Size = new System.Drawing.Size(30, 15);
+            this.lbSeq.TabIndex = 46;
+            this.lbSeq.Text = "0 / 0";
             // 
             // btnPrev
             // 
@@ -135,7 +146,7 @@
             this.lbTitle.Text = "Title";
             this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // TooltipForm
+            // DefaultTooltipForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -144,7 +155,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "TooltipForm";
+            this.Name = "DefaultTooltipForm";
             this.Text = "TooltipForm";
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
@@ -162,5 +173,6 @@
         private System.Windows.Forms.Button btnPrev;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Label lbSeq;
     }
 }

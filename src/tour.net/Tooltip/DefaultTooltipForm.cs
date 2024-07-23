@@ -71,29 +71,57 @@ namespace tour.net.Tooltip
         }
         #endregion
 
-        private readonly TooltipTail _tooltipTail;
+        private TooltipTail _tooltipTail;
+        private int _stepIndex;
+        private int _totalStepsCount;
         internal const int TOOLTIP_FORM_WIDTH = 403;
 
         public DefaultTooltipForm(string title, string description, ETooltipPosition tooltipPosition = ETooltipPosition.Bottom)
         {
             InitializeComponent();
+            InitializeTooltipTail(tooltipPosition);
+            InitializeProperties(title, description);
+        }
 
-            // set empty color before setting config.
-            _tooltipTail = new TooltipTail(Color.Transparent);
-            Controls.Add(_tooltipTail);
-
-            MoveTail(tooltipPosition);
-
-            Size = new Size(TOOLTIP_FORM_WIDTH, Height + _tooltipTail.TailHeight);
-
+        private void InitializeProperties(string title, string description)
+        {
             lbTitle.Text = title;
             lbDescription.Text = description;
-
+            
+            FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
 
             // avoid focusing close button.
             ActiveControl = lbDescription;
-        }        
+        }
+
+        private void InitializeTooltipTail(ETooltipPosition tooltipPosition)
+        {
+            // set empty color before setting config.
+            _tooltipTail = new TooltipTail(Color.Transparent);
+            Controls.Add(_tooltipTail);
+            MoveTail(tooltipPosition);
+        }
+        private void MoveTail(ETooltipPosition tooltipPosition)
+        {
+            switch (tooltipPosition) 
+            {
+                case ETooltipPosition.Bottom:
+                    _tooltipTail.Location = new Point(Width / 2 - _tooltipTail.TailWidth, _tooltipTail.Location.Y);
+                    Size = new Size(TOOLTIP_FORM_WIDTH, Height + _tooltipTail.TailHeight);
+                    break;
+                default:
+                    throw new ArgumentException(nameof(tooltipPosition));
+            }
+        }
+
+        public void SetStepInfo(int stepIndex, int totalStepsCount)
+        {
+            _stepIndex = stepIndex;
+            _totalStepsCount = totalStepsCount;
+
+            lbSeq.Text = $"{_stepIndex} / {_totalStepsCount}";
+        }
 
         public void ApplyConfig(TutorialConfig config)
         {
@@ -106,18 +134,6 @@ namespace tour.net.Tooltip
             pnlTitle.BackColor = config.TooltipColor;
 
             _tooltipTail.SetColor(config.TooltipColor);
-        }
-
-        private void MoveTail(ETooltipPosition tooltipPosition)
-        {
-            switch (tooltipPosition) 
-            {
-                case ETooltipPosition.Bottom:
-                    _tooltipTail.Location = new Point(Width / 2 - _tooltipTail.TailWidth, _tooltipTail.Location.Y);
-                    break;
-                default:
-                    throw new ArgumentException(nameof(tooltipPosition));
-            }
         }
 
         public void AddPrevEvent(EventHandler prevEvent)

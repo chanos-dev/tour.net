@@ -44,11 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tooltip\TooltipForm.cs">
+    <Compile Include="Tooltip\DefaultTooltipForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tooltip\TooltipForm.Designer.cs">
-      <DependentUpon>TooltipForm.cs</DependentUpon>
+    <Compile Include="Tooltip\DefaultTooltipForm.Designer.cs">
+      <DependentUpon>DefaultTooltipForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TutorialConfig.cs" />
     <Compile Include="Highlight\HighlightForm.cs">
@@ -61,8 +61,8 @@
     <Compile Include="Tutorial\TutorialStep.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Tooltip\TooltipForm.resx">
-      <DependentUpon>TooltipForm.cs</DependentUpon>
+    <EmbeddedResource Include="Tooltip\DefaultTooltipForm.resx">
+      <DependentUpon>DefaultTooltipForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Highlight\HighlightForm.resx">
       <DependentUpon>HighlightForm.cs</DependentUpon>

@@ -34,7 +34,7 @@ namespace tour.net.Tutorial
             return this;
         } 
 
-        public TutorialManager AddStep(HighlightForm highlightForm, DefaultTooltipForm tooltipForm, Point screenPos = new Point())
+        public TutorialManager AddStep(HighlightForm highlightForm, DefaultTooltipForm tooltipForm, Point highlightScreenPosition = new Point())
         {
             if (highlightForm is null)
                 throw new ArgumentNullException(nameof(highlightForm));
@@ -46,13 +46,15 @@ namespace tour.net.Tutorial
             tooltipForm.AddNextEvent(NextStep);
             tooltipForm.AddExitEvent(ExitStep);
 
-            TutorialStep step = new TutorialStep(highlightForm,
-                tooltipForm,
-                screenPos != Point.Empty ? screenPos : _tutorialConfig.HighlightScreenPosition);
+            Point pos = highlightScreenPosition != Point.Empty ? highlightScreenPosition : _tutorialConfig.HighlightScreenPosition;
+            TutorialStep step = new TutorialStep(highlightForm, tooltipForm, pos);
 
-            step.ApplyConfig(_tutorialConfig);
+            step.ApplyConfig(_tutorialConfig); 
 
             _steps.Add(step);
+
+            for (int idx = 0; idx < _steps.Count; idx++)
+                _steps[idx].TooltipForm.SetStepInfo(idx + 1, _steps.Count);
 
             return this;
         } 
@@ -91,7 +93,10 @@ namespace tour.net.Tutorial
         private void NextStep(object sender, EventArgs args)
         {
             if (_currentIdx >= _steps.Count - 1)
+            {
+                _steps[_currentIdx].Hide();
                 return;
+            }
 
             _steps[++_currentIdx].Show();
             _steps[_currentIdx - 1].Hide(); 
@@ -124,12 +129,12 @@ namespace tour.net.Tutorial
             _steps[_currentIdx].Show();
         }
 
-        public void Resize(Point screenPos, Size size)
+        public void Resize(Point highlightScreenPosition, Size size)
         {            
             foreach (TutorialStep step in _steps)
             {
                 step.Resize(size);
-                step.Move(screenPos);
+                step.Move(highlightScreenPosition);
             }
         }
 
@@ -140,11 +145,13 @@ namespace tour.net.Tutorial
             {
                 if (disposing) { }
 
-                foreach(var step in _steps)
+                foreach(TutorialStep step in _steps)
                 {
                     step.TooltipForm.RemovePrevEvent(PrevStep);
                     step.TooltipForm.RemoveNextEvent(NextStep);
                     step.TooltipForm.RemoveExitEvent(ExitStep);
+
+                    step.HighlightForm.Release();
                 }
 
                 disposedValue = true;

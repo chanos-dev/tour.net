@@ -15,7 +15,6 @@ namespace tour.net.app
         {
             InitializeComponent();
 
-            
             LocationChanged += (sender, e) =>
             {
                 _tutorial?.Resize(PointToScreen(panel1.Location), panel1.Size);
