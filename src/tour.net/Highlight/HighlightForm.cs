@@ -1,13 +1,22 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using tour.net.Tooltip;
 
 namespace tour.net.Highlight
 {
     public partial class HighlightForm : Form
     {
         private Control _highlightControl;
+
+        internal Rectangle HighlightControlBounds
+        {
+            get
+            {
+                Point excludeRectRealPos = PointToScreen(_highlightControl.Bounds.Location);
+
+                return new Rectangle(excludeRectRealPos, _highlightControl.Size);
+            }
+        }
 
         public HighlightForm(Size size, Control highlightControl, Form owner, double opacity = 0.1)
         {
@@ -40,14 +49,6 @@ namespace tour.net.Highlight
         {
             _highlightControl = null;
             Owner = null;
-        }
-
-        public Point GetToolTipPos()
-        {
-            Point excludeRectRealPos = PointToScreen(_highlightControl.Bounds.Location);
-
-            return new Point(excludeRectRealPos.X + (_highlightControl.Width / 2) - (DefaultTooltipForm.TOOLTIP_FORM_WIDTH / 2),
-                excludeRectRealPos.Y + _highlightControl.Height);
         }
 
         private void SetRegion(Size size)

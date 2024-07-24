@@ -25,7 +25,7 @@ namespace tour.net.Tutorials
 
             _tooltipForm.Owner = _highlightForm;
             _tooltipForm.Show();
-            _tooltipForm.Location = _highlightForm.GetToolTipPos();
+            _tooltipForm.MoveToolTip(_highlightForm.HighlightControlBounds);
         }
 
         internal void Hide()
@@ -47,7 +47,7 @@ namespace tour.net.Tutorials
         internal void Move(Point highlightScreenPosition)
         {
             _highlightForm.Location = highlightScreenPosition;
-            _tooltipForm.Location = _highlightForm.GetToolTipPos();
+            _tooltipForm.MoveToolTip(_highlightForm.HighlightControlBounds);
         }
 
         internal void ApplyConfig(TutorialConfig config)

@@ -22,15 +22,16 @@ namespace tour.net.Tooltip
             private const int TRIANGLE_HEIGHT = 16;
 
             private Color _color;
-
+            private readonly ETooltipPosition _tooltipPosition;
             private readonly int _tailWidth;
 
             internal int TailHeight => TRIANGLE_HEIGHT;
             internal int TailWidth => _tailWidth;
 
-            internal TooltipTail(Color color)
+            internal TooltipTail(Color color, ETooltipPosition tooltipPosition)
             {
                 _color = color;
+                _tooltipPosition = tooltipPosition;
                 _tailWidth = TRIANGLE_HEIGHT / 2;
             }
 
@@ -58,15 +59,54 @@ namespace tour.net.Tooltip
             {
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-                Point p = new Point(_tailWidth, 0);
+                Point[] triangle = null;
 
-                e.Graphics.FillPolygon(new SolidBrush(_color),
-                    new Point[]
-                    {
-                    p,
-                    new Point(p.X - _tailWidth, p.Y + TRIANGLE_HEIGHT),
-                    new Point(p.X + _tailWidth, p.Y + TRIANGLE_HEIGHT)
-                    });
+                switch (_tooltipPosition)
+                {                    
+                    case ETooltipPosition.Bottom:
+                    default:
+                        Point pb = new Point(_tailWidth, 0);
+                        
+                        triangle = new Point[]
+                        {
+                            pb,
+                            new Point(pb.X - _tailWidth, pb.Y + TRIANGLE_HEIGHT),
+                            new Point(pb.X + _tailWidth, pb.Y + TRIANGLE_HEIGHT)
+                        };
+                        break;
+                    case ETooltipPosition.Top:
+                        Point pt = new Point(_tailWidth, TRIANGLE_HEIGHT);
+
+                        triangle = new Point[]
+                        {
+                            pt,
+                            new Point(pt.X - _tailWidth, pt.Y - TRIANGLE_HEIGHT),
+                            new Point(pt.X + _tailWidth, pt.Y - TRIANGLE_HEIGHT)
+                        };
+                        break;
+                    case ETooltipPosition.Right:
+                        Point pr = new Point(0, TRIANGLE_HEIGHT / 2);
+
+                        triangle = new Point[]
+                        {
+                            new Point(TRIANGLE_HEIGHT, pr.Y - _tailWidth),
+                            pr,
+                            new Point(TRIANGLE_HEIGHT, pr.Y + _tailWidth)
+                        };
+                        break;
+                    case ETooltipPosition.Left:
+                        Point pl = new Point(TRIANGLE_HEIGHT, _tailWidth);
+
+                        triangle = new Point[]
+                        {
+                            new Point(0, pl.Y - _tailWidth),
+                            pl,
+                            new Point(0, pl.Y + _tailWidth)
+                        };
+                        break;
+                }
+
+                e.Graphics.FillPolygon(new SolidBrush(_color), triangle);
             }
         }
         #endregion
@@ -74,7 +114,7 @@ namespace tour.net.Tooltip
         private TooltipTail _tooltipTail;
         private int _stepIndex;
         private int _totalStepsCount;
-        internal const int TOOLTIP_FORM_WIDTH = 403;
+        private ETooltipPosition _tooltipPosition;
 
         public DefaultTooltipForm(string title, string description, ETooltipPosition tooltipPosition = ETooltipPosition.Bottom)
         {
@@ -97,26 +137,66 @@ namespace tour.net.Tooltip
 
         private void InitializeTooltipTail(ETooltipPosition tooltipPosition)
         {
+            _tooltipPosition = tooltipPosition;
             // set empty color before setting config.
-            _tooltipTail = new TooltipTail(Color.Transparent);
+            _tooltipTail = new TooltipTail(Color.Transparent, tooltipPosition);
             Controls.Add(_tooltipTail);
-            MoveTail(tooltipPosition);
+            MoveTail();
         }
 
-        private void MoveTail(ETooltipPosition tooltipPosition)
+        private void MoveTail()
         {
-            switch (tooltipPosition) 
+            switch (_tooltipPosition) 
             {
                 case ETooltipPosition.Bottom:
-                    _tooltipTail.Location = new Point(Width / 2 - _tooltipTail.TailWidth, _tooltipTail.Location.Y);
-                    Size = new Size(TOOLTIP_FORM_WIDTH, Height + _tooltipTail.TailHeight);
-                    break;
                 default:
-                    throw new ArgumentException(nameof(tooltipPosition));
+                    pnlMain.Dock = DockStyle.Bottom;
+                    _tooltipTail.Location = new Point(Width / 2 - _tooltipTail.TailWidth, _tooltipTail.Location.Y);
+                    Size = new Size(Width, Height + _tooltipTail.TailHeight);
+                    break;
+                case ETooltipPosition.Top:
+                    pnlMain.Dock = DockStyle.Top;
+                    _tooltipTail.Location = new Point(Width / 2 - _tooltipTail.TailWidth, Height);
+                    Size = new Size(Width, Height + _tooltipTail.TailHeight);
+                    break;
+                case ETooltipPosition.Right:
+                    pnlMain.Dock = DockStyle.Right;
+                    _tooltipTail.Location = new Point(0, Height / 2 - _tooltipTail.TailWidth);
+                    Size = new Size(Width + _tooltipTail.TailHeight, Height);
+                    break;
+                case ETooltipPosition.Left:
+                    pnlMain.Dock = DockStyle.Left;
+                    _tooltipTail.Location = new Point(Width, Height / 2 - _tooltipTail.TailWidth);
+                    Size = new Size(Width + _tooltipTail.TailHeight, Height);
+                    break;
             }
         }
 
-        public void SetStepInfo(int stepIndex, int totalStepsCount)
+        internal void MoveToolTip(Rectangle highlightControlBounds)
+        {
+            switch (_tooltipPosition)
+            {
+                case ETooltipPosition.Bottom:
+                default:
+                    Location = new Point(highlightControlBounds.X - Width / 2 + highlightControlBounds.Width / 2,
+                        highlightControlBounds.Y + highlightControlBounds.Height);
+                    break;
+                case ETooltipPosition.Top:
+                    Location = new Point(highlightControlBounds.X - Width / 2 + highlightControlBounds.Width / 2,
+                        highlightControlBounds.Y - Height);
+                    break;
+                case ETooltipPosition.Right:
+                    Location = new Point(highlightControlBounds.X + highlightControlBounds.Width,
+                        highlightControlBounds.Y - (Height / 2) + (highlightControlBounds.Height / 2));
+                    break;
+                case ETooltipPosition.Left:
+                    Location = new Point(highlightControlBounds.X - Width,
+                        highlightControlBounds.Y - (Height / 2) + (highlightControlBounds.Height / 2));
+                    break;
+            }
+        }
+
+        internal void SetStepInfo(int stepIndex, int totalStepsCount)
         {
             _stepIndex = stepIndex;
             _totalStepsCount = totalStepsCount;
@@ -133,7 +213,7 @@ namespace tour.net.Tooltip
             }
         }
 
-        public void ApplyConfig(TutorialConfig config)
+        internal void ApplyConfig(TutorialConfig config)
         {
             lbTitle.BackColor = config.TooltipColor;
 
@@ -146,22 +226,22 @@ namespace tour.net.Tooltip
             _tooltipTail.SetColor(config.TooltipColor);
         }
 
-        public void AddPrevEvent(EventHandler prevEvent)
+        internal void AddPrevEvent(EventHandler prevEvent)
             => btnPrev.Click += prevEvent;
 
-        public void RemovePrevEvent(EventHandler prevEvent)
+        internal void RemovePrevEvent(EventHandler prevEvent)
             => btnPrev.Click -= prevEvent;
 
-        public void AddNextEvent(EventHandler nextEvent)
+        internal void AddNextEvent(EventHandler nextEvent)
             => btnNext.Click += nextEvent;
 
-        public void RemoveNextEvent(EventHandler nextEvent)
+        internal void RemoveNextEvent(EventHandler nextEvent)
             => btnNext.Click -= nextEvent;
 
-        public void AddExitEvent(EventHandler exitEvent)
+        internal void AddExitEvent(EventHandler exitEvent)
             => btnExit.Click += exitEvent;
 
-        public void RemoveExitEvent(EventHandler exitEvent)
+        internal void RemoveExitEvent(EventHandler exitEvent)
             => btnExit.Click -= exitEvent;
 
         #region override methods

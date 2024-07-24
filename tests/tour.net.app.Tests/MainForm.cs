@@ -32,10 +32,11 @@ namespace tour.net.app
                 .SetTutorialConfig(config =>
                 {
                     config.TooltipColor = Color.LightBlue;
+                    config.AutoPositionTooltip = true;
                 })
-                .AddStep(step1, new DefaultTooltipForm("Step 1", "click the button1."))
-                .AddStep(step2, new DefaultTooltipForm("Step 2", "click the button2."))
-                .AddStep(step3, new DefaultTooltipForm("Step 3", "check the checkBox1."))
+                .AddStep(step1, new DefaultTooltipForm("Step 1", "click the button1.", ETooltipPosition.Left))
+                .AddStep(step2, new DefaultTooltipForm("Step 2", "click the button2.", ETooltipPosition.Right))
+                .AddStep(step3, new DefaultTooltipForm("Step 3", "check the checkBox1.", ETooltipPosition.Top))
                 .AddStep(step4, new DefaultTooltipForm("Step 4", "click the radioButton1."))
                 .AddStep(step5, new DefaultTooltipForm("Step 5", "click the radioButton2."))
                 .AddStep(step6, new DefaultTooltipForm("Step 6", "click the radioButton3."));

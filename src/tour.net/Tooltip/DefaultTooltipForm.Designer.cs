@@ -32,12 +32,12 @@ namespace tour.net.Tooltip
         {
             this.pnlMain = new System.Windows.Forms.Panel();
             this.lbSeq = new System.Windows.Forms.Label();
-            this.btnPrev = new CustomButton();
-            this.btnNext = new CustomButton();
             this.lbDescription = new System.Windows.Forms.Label();
             this.pnlTitle = new System.Windows.Forms.Panel();
-            this.btnExit = new CustomButton();
             this.lbTitle = new System.Windows.Forms.Label();
+            this.btnPrev = new tour.net.CustomControls.CustomButton();
+            this.btnNext = new tour.net.CustomControls.CustomButton();
+            this.btnExit = new tour.net.CustomControls.CustomButton();
             this.pnlMain.SuspendLayout();
             this.pnlTitle.SuspendLayout();
             this.SuspendLayout();
@@ -66,30 +66,6 @@ namespace tour.net.Tooltip
             this.lbSeq.TabIndex = 46;
             this.lbSeq.Text = "0 / 0";
             // 
-            // btnPrev
-            // 
-            this.btnPrev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPrev.Location = new System.Drawing.Point(236, 93);
-            this.btnPrev.Margin = new System.Windows.Forms.Padding(4);
-            this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Size = new System.Drawing.Size(75, 29);
-            this.btnPrev.TabIndex = 45;
-            this.btnPrev.Text = "Previous";
-            this.btnPrev.UseVisualStyleBackColor = true;
-            // 
-            // btnNext
-            // 
-            this.btnNext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(101)))), ((int)(((byte)(224)))));
-            this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNext.ForeColor = System.Drawing.Color.White;
-            this.btnNext.Location = new System.Drawing.Point(316, 93);
-            this.btnNext.Margin = new System.Windows.Forms.Padding(4);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 29);
-            this.btnNext.TabIndex = 44;
-            this.btnNext.Text = "Next";
-            this.btnNext.UseVisualStyleBackColor = false;
-            // 
             // lbDescription
             // 
             this.lbDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -117,21 +93,6 @@ namespace tour.net.Tooltip
             this.pnlTitle.Size = new System.Drawing.Size(403, 38);
             this.pnlTitle.TabIndex = 38;
             // 
-            // btnExit
-            // 
-            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(101)))), ((int)(((byte)(224)))));
-            this.btnExit.FlatAppearance.BorderSize = 0;
-            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExit.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnExit.ForeColor = System.Drawing.Color.White;
-            this.btnExit.Location = new System.Drawing.Point(371, 7);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(4);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(25, 25);
-            this.btnExit.TabIndex = 46;
-            this.btnExit.Text = "X";
-            this.btnExit.UseVisualStyleBackColor = false;
-            // 
             // lbTitle
             // 
             this.lbTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(101)))), ((int)(((byte)(224)))));
@@ -147,6 +108,45 @@ namespace tour.net.Tooltip
             this.lbTitle.TabIndex = 0;
             this.lbTitle.Text = "Title";
             this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnPrev
+            // 
+            this.btnPrev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPrev.Location = new System.Drawing.Point(236, 93);
+            this.btnPrev.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPrev.Name = "btnPrev";
+            this.btnPrev.Size = new System.Drawing.Size(75, 29);
+            this.btnPrev.TabIndex = 45;
+            this.btnPrev.Text = "Previous";
+            this.btnPrev.UseVisualStyleBackColor = true;
+            // 
+            // btnNext
+            // 
+            this.btnNext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(101)))), ((int)(((byte)(224)))));
+            this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNext.ForeColor = System.Drawing.Color.White;
+            this.btnNext.Location = new System.Drawing.Point(316, 93);
+            this.btnNext.Margin = new System.Windows.Forms.Padding(4);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 29);
+            this.btnNext.TabIndex = 44;
+            this.btnNext.Text = "Next";
+            this.btnNext.UseVisualStyleBackColor = false;
+            // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(101)))), ((int)(((byte)(224)))));
+            this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExit.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnExit.ForeColor = System.Drawing.Color.White;
+            this.btnExit.Location = new System.Drawing.Point(371, 7);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(4);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(25, 25);
+            this.btnExit.TabIndex = 46;
+            this.btnExit.Text = "X";
+            this.btnExit.UseVisualStyleBackColor = false;
             // 
             // DefaultTooltipForm
             // 
