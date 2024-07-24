@@ -61,7 +61,7 @@ namespace tour.net.Highlight
                         _highlightControl.Height + 2));
 
                 Region region = new Region(new Rectangle(0, 0, size.Width, size.Height));
-                region.Exclude(path);
+                region.Exclude(path);                
                 Region = region;
             }
         }

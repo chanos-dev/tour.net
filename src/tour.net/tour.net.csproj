@@ -46,6 +46,8 @@
     <Compile Include="CustomControls\CustomButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Exceptions\EmptyTutorialStepException.cs" />
+    <Compile Include="Exceptions\TutorialNotBuiltException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tooltip\DefaultTooltipForm.cs">
       <SubType>Form</SubType>

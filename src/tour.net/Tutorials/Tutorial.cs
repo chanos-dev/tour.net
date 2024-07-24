@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
+using tour.net.Exceptions;
 using tour.net.Highlight;
 using tour.net.Tooltip;
 
@@ -13,32 +15,46 @@ namespace tour.net.Tutorials
 
     public class Tutorial : ITutorial, IDisposable
     {
+        private Form _form;
         private int _currentIdx = 0;
         private readonly List<TutorialStep> _steps;
         private readonly TutorialConfig _tutorialConfig;
-
         private bool _created;
-        private bool disposedValue;
+        private bool _disposedValue;
 
+        /// <summary>
+        /// Running tutorial.
+        /// </summary>
         public bool Running { get; set; }
 
-        public Tutorial()
+        /// <summary>
+        /// Count tutorial steps.
+        /// </summary>
+        public int Count => _steps.Count;
+
+        /// <summary>
+        /// New tutorial instance.
+        /// </summary>
+        /// <param name="mainForm">tutorial mainform</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public Tutorial(Form mainForm)
         {
+            if (mainForm is null)
+                throw new ArgumentNullException(nameof(mainForm));
+
+            _form = mainForm;
             _steps = new List<TutorialStep>();
             _tutorialConfig = TutorialConfig.DefaultTutorialConfig;
+
+            SetAutoResize();
         }
 
-        public TutorialStep this[int idx]
-        {
-            get
-            {
-                if (idx < 0 || idx >= _steps.Count)
-                    throw new IndexOutOfRangeException();
-
-                return _steps[idx];
-            }
-        }
-
+        /// <summary>
+        /// Set tutorial config.
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns>tutorial instance</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public Tutorial SetTutorialConfig(Action<TutorialConfig> config)
         {
             if (config is null)
@@ -47,9 +63,27 @@ namespace tour.net.Tutorials
             config.Invoke(_tutorialConfig);
 
             return this;
-        } 
+        }
 
-        public Tutorial AddStep(HighlightForm highlightForm, DefaultTooltipForm tooltipForm, Point highlightScreenPosition = new Point())
+        private void SetAutoResize()
+        {
+            _form.LocationChanged += ResizeEvent;
+            _form.SizeChanged += ResizeEvent;
+        }
+
+        private void ResizeEvent(object sender, EventArgs e)
+        {
+            Resize(_form.PointToScreen(Point.Empty), _form.ClientSize);
+        }
+
+        /// <summary>
+        /// Add tutorial step.
+        /// </summary>
+        /// <param name="highlightForm">set highlight form</param>
+        /// <param name="tooltipForm">set tooltip form</param>
+        /// <returns>tutorial instance</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public Tutorial AddStep(HighlightForm highlightForm, DefaultTooltipForm tooltipForm)
         {
             if (highlightForm is null)
                 throw new ArgumentNullException(nameof(highlightForm));
@@ -57,18 +91,22 @@ namespace tour.net.Tutorials
             if (tooltipForm is null)
                 throw new ArgumentNullException(nameof(tooltipForm));
 
-            Point pos = highlightScreenPosition != Point.Empty ? highlightScreenPosition : _tutorialConfig.HighlightScreenPosition;
-            TutorialStep step = new TutorialStep(highlightForm, tooltipForm, pos);
+            TutorialStep step = new TutorialStep(highlightForm, tooltipForm);
 
             _steps.Add(step);
 
             return this;
         } 
 
+        /// <summary>
+        /// Remove tutorial step.
+        /// </summary>
+        /// <param name="idx">index</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void RemoveStep(int idx)
         {
             if (idx < 0 || idx >= _steps.Count)
-                throw new ArgumentOutOfRangeException(nameof(idx));
+                throw new IndexOutOfRangeException(nameof(idx));
 
             _steps[idx].TooltipForm.RemovePrevEvent(PrevStep);
             _steps[idx].TooltipForm.RemoveNextEvent(NextStep);
@@ -79,6 +117,9 @@ namespace tour.net.Tutorials
             _steps.RemoveAt(idx);
         }
 
+        /// <summary>
+        /// Clear tutorial steps.
+        /// </summary>
         public void Clear()
         {
             if (_steps.Count == 0)
@@ -124,10 +165,15 @@ namespace tour.net.Tutorials
             Running = false;
         }
 
+        /// <summary>
+        /// Build tutorial.
+        /// </summary>
+        /// <returns>An ITutorial interface for starting the tutorial.</returns>
+        /// <exception cref="EmptyTutorialStepException"></exception>
         public ITutorial Build()
         {
             if (_steps.Count < 1)
-                throw new Exception();
+                throw new EmptyTutorialStepException();
 
             if (_created)
                 return this;
@@ -148,16 +194,22 @@ namespace tour.net.Tutorials
             return this;
         }
 
+        /// <summary>
+        /// Start tutorial.
+        /// </summary>
+        /// <exception cref="EmptyTutorialStepException"></exception>
+        /// <exception cref="TutorialNotBuiltException"></exception>
         void ITutorial.Start()
         {
             if (_steps.Count == 0)
-                throw new InvalidOperationException("Has no step.");
+                throw new EmptyTutorialStepException();
 
             if (!_created)
-                throw new InvalidOperationException("You have to call the Build method.");
+                throw new TutorialNotBuiltException();
 
             Running = true;
 
+            ResizeEvent(null, null);
             _currentIdx = 0;
             _steps[_currentIdx].Show();
         }
@@ -171,23 +223,27 @@ namespace tour.net.Tutorials
             }
         }
 
+        private void Release()
+        {
+            if (_form is null)
+                return;
+
+            _form.LocationChanged -= ResizeEvent;
+            _form.SizeChanged -= ResizeEvent;
+            _form = null;
+        }
+
         #region IDisposable
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing) { }
 
-                foreach(TutorialStep step in _steps)
-                {
-                    step.TooltipForm.RemovePrevEvent(PrevStep);
-                    step.TooltipForm.RemoveNextEvent(NextStep);
-                    step.TooltipForm.RemoveExitEvent(ExitStep);
+                Clear();
+                Release();
 
-                    step.HighlightForm.Release();
-                }
-
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 

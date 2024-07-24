@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3A47F78A-12E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AA46B064-82C0-47DF-8921-DA2543AF729F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tour.net.app", "tests\tour.net.app\tour.net.app.csproj", "{D2B89851-EF89-47CE-9B06-3885AF41B386}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tour.net.app.Tests", "tests\tour.net.app.Tests\tour.net.app.Tests.csproj", "{D2B89851-EF89-47CE-9B06-3885AF41B386}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
