@@ -18,15 +18,13 @@ namespace tour.net.Highlight
             }
         }
 
-        public HighlightForm(Size size, Control highlightControl, Form owner, double opacity = 0.1)
+        public HighlightForm(Control highlightControl, double opacity = 0.1)
         {
             InitializeComponent();
 
             _highlightControl = highlightControl;
 
             Opacity = opacity;
-            Size = size;
-            Owner = owner;
 
             FormBorderStyle = FormBorderStyle.None;
             BackColor = Color.Black;

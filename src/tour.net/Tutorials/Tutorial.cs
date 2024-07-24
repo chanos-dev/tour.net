@@ -91,6 +91,7 @@ namespace tour.net.Tutorials
             if (tooltipForm is null)
                 throw new ArgumentNullException(nameof(tooltipForm));
 
+            highlightForm.Owner = _form;
             TutorialStep step = new TutorialStep(highlightForm, tooltipForm);
 
             _steps.Add(step);
