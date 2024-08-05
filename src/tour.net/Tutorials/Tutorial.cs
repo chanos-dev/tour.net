@@ -50,7 +50,7 @@ namespace tour.net.Tutorials
         }
 
         /// <summary>
-        /// Set tutorial config.
+        /// Configuration settings for the `DefaultToolTipForm`.
         /// </summary>
         /// <param name="config"></param>
         /// <returns>tutorial instance</returns>
@@ -73,7 +73,11 @@ namespace tour.net.Tutorials
 
         private void ResizeEvent(object sender, EventArgs e)
         {
-            Resize(_form.PointToScreen(Point.Empty), _form.ClientSize);
+            foreach (TutorialStep step in _steps)
+            {
+                step.Resize(_form.ClientSize);
+                step.Move(_form.PointToScreen(Point.Empty));
+            }
         }
 
         /// <summary>
@@ -83,7 +87,7 @@ namespace tour.net.Tutorials
         /// <param name="tooltipForm">set tooltip form</param>
         /// <returns>tutorial instance</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Tutorial AddStep(HighlightForm highlightForm, DefaultTooltipForm tooltipForm)
+        public Tutorial AddStep(HighlightForm highlightForm, TooltipForm tooltipForm)
         {
             if (highlightForm is null)
                 throw new ArgumentNullException(nameof(highlightForm));
@@ -187,7 +191,8 @@ namespace tour.net.Tutorials
 
                 _steps[idx].TooltipForm.SetStepInfo(idx + 1, _steps.Count);
 
-                _steps[idx].ApplyConfig(_tutorialConfig);
+                if (_steps[idx].TooltipForm is DefaultTooltipForm defaultTooltip)
+                    defaultTooltip.ApplyConfig(_tutorialConfig);
             }
 
             _created = true;
@@ -213,15 +218,6 @@ namespace tour.net.Tutorials
             ResizeEvent(null, null);
             _currentIdx = 0;
             _steps[_currentIdx].Show();
-        }
-
-        public void Resize(Point highlightScreenPosition, Size size)
-        {
-            foreach (TutorialStep step in _steps)
-            {
-                step.Resize(size);
-                step.Move(highlightScreenPosition);
-            }
         }
 
         private void Release()

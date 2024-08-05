@@ -14,7 +14,7 @@ namespace tour.net.Tooltip
         Bottom,
     }
 
-    public partial class DefaultTooltipForm : Form
+    public partial class DefaultTooltipForm : TooltipForm
     {
         #region inner class
         internal class TooltipTail : Panel
@@ -112,8 +112,6 @@ namespace tour.net.Tooltip
         #endregion
 
         private TooltipTail _tooltipTail;
-        private int _stepIndex;
-        private int _totalStepsCount;
         private ETooltipPosition _tooltipPosition;
 
         public DefaultTooltipForm(string title, string description, ETooltipPosition tooltipPosition = ETooltipPosition.Bottom)
@@ -172,7 +170,19 @@ namespace tour.net.Tooltip
             }
         }
 
-        internal void MoveToolTip(Rectangle highlightControlBounds)
+        internal void ApplyConfig(TutorialConfig config)
+        {
+            lbTitle.BackColor = config.TooltipColor;
+
+            btnNext.BackColor = config.TooltipColor;
+            btnPrev.FlatAppearance.BorderColor = config.TooltipColor;
+            btnExit.BackColor = config.TooltipColor;
+
+            pnlTitle.BackColor = config.TooltipColor;
+
+            _tooltipTail.SetColor(config.TooltipColor);
+        }
+        public override void MoveTooltip(Rectangle highlightControlBounds)
         {
             switch (_tooltipPosition)
             {
@@ -196,12 +206,9 @@ namespace tour.net.Tooltip
             }
         }
 
-        internal void SetStepInfo(int stepIndex, int totalStepsCount)
+        public override void SetStepInfo(int stepIndex, int totalStepsCount)
         {
-            _stepIndex = stepIndex;
-            _totalStepsCount = totalStepsCount;
-
-            lbSeq.Text = $"{_stepIndex} / {_totalStepsCount}";
+            lbSeq.Text = $"{stepIndex} / {totalStepsCount}";
 
             if (stepIndex == 1)
             {
@@ -213,35 +220,22 @@ namespace tour.net.Tooltip
             }
         }
 
-        internal void ApplyConfig(TutorialConfig config)
-        {
-            lbTitle.BackColor = config.TooltipColor;
-
-            btnNext.BackColor = config.TooltipColor;
-            btnPrev.FlatAppearance.BorderColor = config.TooltipColor;
-            btnExit.BackColor = config.TooltipColor;
-
-            pnlTitle.BackColor = config.TooltipColor;
-
-            _tooltipTail.SetColor(config.TooltipColor);
-        }
-
-        internal void AddPrevEvent(EventHandler prevEvent)
+        public override void AddPrevEvent(EventHandler prevEvent)
             => btnPrev.Click += prevEvent;
 
-        internal void RemovePrevEvent(EventHandler prevEvent)
+        public override void RemovePrevEvent(EventHandler prevEvent)
             => btnPrev.Click -= prevEvent;
 
-        internal void AddNextEvent(EventHandler nextEvent)
+        public override void AddNextEvent(EventHandler nextEvent)
             => btnNext.Click += nextEvent;
 
-        internal void RemoveNextEvent(EventHandler nextEvent)
+        public override void RemoveNextEvent(EventHandler nextEvent)
             => btnNext.Click -= nextEvent;
 
-        internal void AddExitEvent(EventHandler exitEvent)
+        public override void AddExitEvent(EventHandler exitEvent)
             => btnExit.Click += exitEvent;
 
-        internal void RemoveExitEvent(EventHandler exitEvent)
+        public override void RemoveExitEvent(EventHandler exitEvent)
             => btnExit.Click -= exitEvent;
 
         #region override methods

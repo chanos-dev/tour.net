@@ -5,6 +5,9 @@ namespace tour.net
     public class TutorialConfig
     {
         public Color TooltipColor { get; set; }
+        /// <summary>
+        /// TODO
+        /// </summary>
         public bool AutoPositionTooltip { get; set; }
         private TutorialConfig() { }
         public static TutorialConfig DefaultTutorialConfig => new TutorialConfig()
