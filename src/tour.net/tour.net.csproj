@@ -43,9 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomControls\CustomButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Exceptions\EmptyTutorialStepException.cs" />
     <Compile Include="Exceptions\TutorialNotBuiltException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

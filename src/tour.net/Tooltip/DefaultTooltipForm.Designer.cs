@@ -1,9 +1,14 @@
-﻿using tour.net.CustomControls;
+﻿using System.Windows.Forms;
 
 namespace tour.net.Tooltip
 {
     partial class DefaultTooltipForm
     {
+        class CustomButton : Button
+        {
+            protected override bool ShowFocusCues => false;
+        }
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -35,9 +40,9 @@ namespace tour.net.Tooltip
             this.lbDescription = new System.Windows.Forms.Label();
             this.pnlTitle = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
-            this.btnPrev = new tour.net.CustomControls.CustomButton();
-            this.btnNext = new tour.net.CustomControls.CustomButton();
-            this.btnExit = new tour.net.CustomControls.CustomButton();
+            this.btnPrev = new CustomButton();
+            this.btnNext = new CustomButton();
+            this.btnExit = new CustomButton();
             this.pnlMain.SuspendLayout();
             this.pnlTitle.SuspendLayout();
             this.SuspendLayout();
