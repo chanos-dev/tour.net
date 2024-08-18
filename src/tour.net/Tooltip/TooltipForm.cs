@@ -4,11 +4,11 @@ using System.Windows.Forms;
 
 namespace tour.net.Tooltip
 {
-    public partial class TooltipForm : Form
+    public class TooltipForm : Form
     {
         public TooltipForm()
         {
-            InitializeComponent();
+            ShowInTaskbar = false;
         }
 
         /// <summary>

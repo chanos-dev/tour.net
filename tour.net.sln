@@ -11,9 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AA46B064
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tour.net.app.Tests", "tests\tour.net.app.Tests\tour.net.app.Tests.csproj", "{D2B89851-EF89-47CE-9B06-3885AF41B386}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "솔루션 항목", "솔루션 항목", "{1C1BAA37-6B6D-4CE9-9C23-A6464D039858}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A97BDF5-346A-49B1-8ED5-CD79437E5560}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		src\tour.net\tour.net.nuspec = src\tour.net\tour.net.nuspec
 	EndProjectSection
 EndProject
 Global

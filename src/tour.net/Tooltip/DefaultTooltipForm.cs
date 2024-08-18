@@ -127,7 +127,6 @@ namespace tour.net.Tooltip
             lbDescription.Text = description;
             
             FormBorderStyle = FormBorderStyle.None;
-            ShowInTaskbar = false;
 
             // avoid focusing close button.
             ActiveControl = lbDescription;
