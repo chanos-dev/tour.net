@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
+    <id>tour.net</id>
+    <version>1.0.0</version>
+    <title>tour.net</title>
+	<owners>chanos.dev</owners>
+    <authors>chanos.dev</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <!-- <icon>icon.png</icon> -->
+	<readme>README.md</readme>
     <projectUrl>https://github.com/chanos-dev/tour.net</projectUrl>
-    <description>$description$</description>
-    <copyright>$copyright$</copyright>
-    <tags>winforms tutorial tour</tags>
+    <description>Simple tour uiux for winforms</description>
+    <copyright>Copyright ©  2024</copyright>
+    <tags>winforms tutorial tour</tags>	  
   </metadata>
+  <files>
+    <file src="..\..\README.md" />
+  </files>
 </package>
