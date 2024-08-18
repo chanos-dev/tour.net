@@ -4,7 +4,7 @@ A simple library to easily implement tutorial functionality in WinForms.
 Developed using .NET Framework 4.8.
 
 ## Preview
-![sample](./sample.gif)
+![sample](https://github.com/chanos-dev/tour.net/blob/main/sample.gif?raw=true)
 
 ## Usage
 ```csharp
